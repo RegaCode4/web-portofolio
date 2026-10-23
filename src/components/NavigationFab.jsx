@@ -40,7 +40,7 @@ export default function NavigationFab() {
 
   return (
     <div 
-      className="fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-[80] flex flex-col items-end"
+      className="fixed bottom-8 right-8 sm:bottom-12 sm:right-12 z-[80] flex flex-col items-end"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >

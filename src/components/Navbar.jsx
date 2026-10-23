@@ -49,7 +49,8 @@ export default function Navbar({ onNavigateHome, onNavigateProjects, currentView
         {/* Right Nav Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
           
-          {/* Language Selector */}
+          {/* Language Selector (hidden for now) */}
+          {/* 
           <div role="group" aria-label="Language" className="items-center gap-0.5 text-xs font-bold tracking-[-0.02em] mr-1 hidden sm:inline-flex bg-zinc-100 p-0.5 rounded-md">
             <button 
               type="button" 
@@ -66,6 +67,7 @@ export default function Navbar({ onNavigateHome, onNavigateProjects, currentView
               ID
             </button>
           </div>
+          */}
 
           {/* Company Avatar Stack & Resume Button (Mengembang / Fans out on hover) */}
           <div 
@@ -113,7 +115,7 @@ export default function Navbar({ onNavigateHome, onNavigateProjects, currentView
 
             {/* Resume Button */}
             <a 
-              href="https://www.linkedin.com/in/adiphabibullah/" 
+              href="https://www.linkedin.com/in/adip-habibullah" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-bold transition duration-200 border border-zinc-200 bg-white text-zinc-900 hover:-translate-y-0.5 hover:border-zinc-400 h-10 px-4 shadow-sm relative z-10"

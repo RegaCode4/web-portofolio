@@ -22,7 +22,7 @@ export default function App() {
       if (hash === '#projects' || hash === '#portfolio') {
         setCurrentView('projects');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else if (hash === '#' || hash === '' || hash === '#home' || hash === '#work' || hash === '#experience' || hash === '#about' || hash === '#contact') {
+      } else {
         setCurrentView('home');
       }
     };

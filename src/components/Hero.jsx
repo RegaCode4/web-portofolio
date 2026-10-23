@@ -100,15 +100,17 @@ export default function Hero() {
                   <span className="absolute h-2.5 w-2.5 border-2 border-[#1557ff] bg-white -bottom-1.5 -right-1.5"></span>
 
                   {/* Cursor Badge Tag */}
-                  <span className="pointer-events-none absolute right-[-4.5rem] bottom-[-2.6rem] z-30 hidden sm:flex items-center">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="-mr-1 -rotate-[28deg] fill-[#1557ff] text-white drop-shadow-sm">
+                  <span className="pointer-events-none absolute -bottom-[1.125rem] -right-[4.25rem] z-30 hidden sm:flex items-center select-none">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="-mr-1.5 -rotate-[22deg] fill-[#1557ff] text-[#1557ff] drop-shadow-sm shrink-0">
                       <path d="M3.039 4.277l3.904 13.563c.185 .837 .92 1.516 1.831 1.642l.17 .016a2.2 2.2 0 0 0 1.982 -1.006l.045 -.078l1.4 -2.072l4.05 4.05a2.067 2.067 0 0 0 2.924 0l1.047 -1.047c.388 -.388 .606 -.913 .606 -1.461l-.008 -.182a2.067 2.067 0 0 0 -.598 -1.28l-4.047 -4.048l2.103 -1.412c.726 -.385 1.18 -1.278 1.053 -2.189a2.2 2.2 0 0 0 -1.701 -1.845l-13.524 -3.89a1 1 0 0 0 -1.236 1.24z"></path>
                     </svg>
-                    <span className="mt-3 flex max-w-[9rem] items-center gap-1.5 truncate rounded-full bg-[#1557ff] py-1 pl-1 pr-2.5 text-xs font-bold text-white shadow-[0_7px_18px_rgba(21,87,255,0.24)]">
-                      <span className="relative h-5 w-5 shrink-0 overflow-hidden rounded-full border border-white/70 bg-white">
-                        <img src="/images/avatar-aslam.webp" alt="" loading="eager" decoding="async" width="20" height="20" className="object-contain h-full w-full" />
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#1557ff] py-1 pl-1 pr-3.5 text-white shadow-[0_4px_16px_rgba(21,87,255,0.32)]">
+                      <span className="relative flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white">
+                        <img src="/images/avatar-aslam.webp" alt="" loading="eager" decoding="async" width="24" height="24" className="h-full w-full object-contain" />
                       </span>
-                      Adip
+                      <span className="font-sans text-xs sm:text-sm font-extrabold tracking-normal leading-none text-white whitespace-nowrap">
+                        Adip
+                      </span>
                     </span>
                   </span>
                 </span>
@@ -123,7 +125,7 @@ export default function Hero() {
         <div className="flex flex-col items-center justify-between gap-5 sm:flex-row sm:items-end sm:gap-8">
           
           {/* Skill Tag Pills */}
-          <div className="order-2 flex flex-wrap items-center justify-center gap-2 sm:order-1 sm:justify-start">
+          <div className="order-1 flex flex-wrap items-center justify-center gap-2 sm:order-1 sm:justify-start">
             <span className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105">
               <Code size={15} /> Web
             </span>
@@ -139,7 +141,7 @@ export default function Hero() {
           </div>
 
           {/* Keycaps Joke Easter Egg */}
-          <div className="order-1 flex flex-col items-center sm:order-2 sm:items-end">
+          <div className="order-2 flex flex-col items-center sm:order-2 sm:items-end">
             <button 
               type="button" 
               onMouseEnter={() => setShowJoke(true)}
@@ -174,7 +176,7 @@ export default function Hero() {
               </div>
 
               {/* Joke Tooltip */}
-              <div className={`pointer-events-none absolute right-0 top-full hidden pt-3 transition duration-300 sm:block ${showJoke ? 'opacity-100 translate-y-1' : 'opacity-0'}`}>
+              <div className={`pointer-events-none absolute right-0 top-full pt-3 transition duration-300 sm:block ${showJoke ? 'opacity-100 translate-y-1' : 'opacity-0'}`}>
                 <span className="relative block rotate-2 whitespace-nowrap font-note text-sm font-semibold text-[#1557ff]">
                   copy paste professional
                   <span className="pointer-events-none absolute right-0 top-full mt-0.5 -rotate-3 whitespace-nowrap text-xs text-[#ff5a0a]">

@@ -64,9 +64,14 @@ export default function AboutSection() {
                 <span className="font-note text-base font-semibold text-[#1557ff]">
                   hello there!
                 </span>
-                <span className="text-[11px] font-bold text-zinc-400 font-mono">
-                  @adiphabibullah
-                </span>
+                <a 
+                  href="https://www.instagram.com/adip.v2" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[11px] font-bold text-zinc-400 hover:text-[#1557ff] font-mono transition cursor-pointer"
+                >
+                  @adip.v2
+                </a>
               </div>
 
               {/* Handwritten Arrow Callout (Top Right pointing to head) */}

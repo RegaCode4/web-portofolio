@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, Mail, Heart } from 'lucide-react';
-import { Linkedin, Github } from './BrandIcons';
+import { Linkedin, Github, Instagram, Tiktok } from './BrandIcons';
 
 
 export default function Footer() {
@@ -51,15 +51,33 @@ export default function Footer() {
 
         {/* Right Socials */}
         <div className="flex flex-col items-center sm:items-end gap-3">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <a 
-              href="https://www.linkedin.com/in/adiphabibullah/" 
+              href="https://www.linkedin.com/in/adip-habibullah" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 transition hover:-translate-y-1 hover:border-[#1557ff] hover:text-[#1557ff]"
               aria-label="LinkedIn"
             >
               <Linkedin size={18} />
+            </a>
+            <a 
+              href="https://www.instagram.com/adip.v2" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 transition hover:-translate-y-1 hover:border-[#1557ff] hover:text-[#1557ff]"
+              aria-label="Instagram"
+            >
+              <Instagram size={18} />
+            </a>
+            <a 
+              href="https://www.tiktok.com/@rega280804" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 transition hover:-translate-y-1 hover:border-[#1557ff] hover:text-[#1557ff]"
+              aria-label="TikTok"
+            >
+              <Tiktok size={16} />
             </a>
             <a 
               href="https://github.com/RegaCode4" 

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, Copy, Check } from 'lucide-react';
-import { Instagram, Linkedin, Youtube } from './BrandIcons';
+import { Instagram, Linkedin, Youtube, Tiktok } from './BrandIcons';
 
 
 const quotes = [
@@ -125,7 +125,7 @@ export default function CatchMeSection() {
                 <motion.a
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  href="https://www.linkedin.com/in/adiphabibullah/"
+                  href="https://www.linkedin.com/in/adip-habibullah"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2 flex items-center gap-1 text-[11px] font-bold text-[#1557ff] hover:underline justify-center bg-white px-2.5 py-0.5 rounded-full shadow-xs border border-blue-200"
@@ -156,12 +156,12 @@ export default function CatchMeSection() {
             </h3>
 
             {/* Contact Card Box */}
-            <div className="rounded-3xl bg-[#f7f7f5] border border-[#deded9] p-5 sm:p-6 space-y-4">
+            <div id="contact" className="rounded-3xl bg-[#f7f7f5] border border-[#deded9] p-5 sm:p-6 space-y-4 scroll-mt-28">
               
               {/* Social Buttons */}
               <div className="flex flex-wrap gap-2.5">
                 <a 
-                  href="https://instagram.com" 
+                  href="https://www.instagram.com/adip.v2" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-[#deded9] bg-white px-4 py-2 text-xs font-bold text-[#111111] transition hover:-translate-y-0.5 hover:border-[#1557ff] shadow-xs"
@@ -171,7 +171,7 @@ export default function CatchMeSection() {
                 </a>
                 
                 <a 
-                  href="https://linkedin.com" 
+                  href="https://www.linkedin.com/in/adip-habibullah" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-[#deded9] bg-white px-4 py-2 text-xs font-bold text-[#111111] transition hover:-translate-y-0.5 hover:border-[#1557ff] shadow-xs"
@@ -180,23 +180,13 @@ export default function CatchMeSection() {
                   Linkedin
                 </a>
 
-                {/* <a 
-                  href="https://youtube.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-[#deded9] bg-white px-4 py-2 text-xs font-bold text-[#111111] transition hover:-translate-y-0.5 hover:border-[#1557ff] shadow-xs"
-                >
-                  <Youtube size={15} className="text-[#111111]" />
-                  Youtube
-                </a> */}
-
                 <a 
-                  href="https://tiktok.com" 
+                  href="https://www.tiktok.com/@rega280804" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-[#deded9] bg-white px-4 py-2 text-xs font-bold text-[#111111] transition hover:-translate-y-0.5 hover:border-[#1557ff] shadow-xs"
                 >
-                  <span className="text-xs font-mono font-bold">🎵</span>
+                  <Tiktok size={15} className="text-[#111111]" />
                   Tiktok
                 </a>
               </div>
@@ -214,6 +204,7 @@ export default function CatchMeSection() {
                 <button 
                   type="button" 
                   onClick={() => handleCopy('regacode4@gmail.com', 'email')}
+                  aria-label="Copy email address"
                   className="text-xs font-bold text-[#76766f] hover:text-[#1557ff] transition cursor-pointer"
                 >
                   {copiedEmail ? <Check size={16} className="text-emerald-600" /> : <Copy size={16} />}
@@ -230,7 +221,8 @@ export default function CatchMeSection() {
                 </div>
                 <button 
                   type="button" 
-                  onClick={() => handleCopy('083197512000', 'phone')}
+                  onClick={() => handleCopy('082278954406', 'phone')}
+                  aria-label="Copy phone number"
                   className="text-xs font-bold text-[#76766f] hover:text-[#1557ff] transition cursor-pointer"
                 >
                   {copiedPhone ? <Check size={16} className="text-emerald-600" /> : <Copy size={16} />}
