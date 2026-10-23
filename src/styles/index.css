@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* Design Tokens & Theme Variables */
+:root {
+  --color-electric: #1557ff;
+  --color-orange-pop: #ff5a0a;
+  --color-folder-yellow: #ffe45c;
+  --color-folder-cream: #fff5e8;
+  --color-folder-blue: #b8d8ff;
+  --color-folder-blog-front: #fffaf2;
+  --color-folder-jasa-back: #eef4ff;
+  --color-folder-jasa-front: #f7f9ff;
+  --color-paper: #ffffff;
+  --color-fog: #f7f7f5;
+  --color-line: #deded9;
+  --color-background: #ffffff;
+  --color-foreground: #111111;
+  --color-border: #deded9;
+  --color-card: #ffffff;
+  --color-secondary: #f4f4f1;
+  --color-muted-foreground: #76766f;
+  --color-destructive: #d63030;
+  --color-primary: #1557ff;
+
+  --font-sans: 'Plus Jakarta Sans', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-note: 'Caveat', cursive;
+  
+  --max-width-narrow: 48.75rem;
+  --max-width-content: 65.625rem;
+  --max-width-wide: 80rem;
+  --paper-dot-size: 22px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  background-image: radial-gradient(circle, rgba(17, 17, 17, 0.035) 1px, transparent 1.35px);
+  background-size: var(--paper-dot-size) var(--paper-dot-size);
+  background-position: 0 0;
+  color: var(--color-foreground);
+  overflow-x: hidden;
+}
+
+/* Paper Grain Texture Overlay */
+body::after {
+  content: "";
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  position: fixed;
+  inset: 0;
+}
+
+.font-note {
+  font-family: var(--font-note);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Color utilities */
+.text-electric { color: var(--color-electric); }
+.bg-electric { background-color: var(--color-electric); }
+.border-electric { border-color: var(--color-electric); }
+.bg-fog { background-color: var(--color-fog); }
+
+/* Background Radial Grid Pattern */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(17, 17, 17, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(17, 17, 17, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(circle, black 35%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle, black 35%, transparent 75%);
+}
+
+/* Keycap 3D styling */
+.keycap-box {
+  border-radius: 13px;
+  border: 1px solid #bdbdb7;
+  background-color: #d9d9d4;
+  padding: 4px;
+  box-shadow: 0 5px 0 #b5b5ae, 0 10px 20px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+}
+
+.keycap-inner {
+  display: flex;
+  height: 40px;
+  min-width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  border: 1px solid #ffffff;
+  background: linear-gradient(to bottom, #ffffff, #f4f4f5);
+  padding-left: 8px;
+  padding-right: 8px;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* Max content wrapper */
+.max-w-content {
+  max-width: var(--max-width-content);
+}

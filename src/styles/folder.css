@@ -1,0 +1,51 @@
+/* Skeuomorphic Animated Folder Styling */
+
+.folder-dot-bg {
+  background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+.folder-card-stack {
+  position: absolute;
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid rgba(228, 228, 231, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1),
+              left 0.5s cubic-bezier(0.2, 0.8, 0.25, 1),
+              bottom 0.5s cubic-bezier(0.2, 0.8, 0.25, 1),
+              box-shadow 0.5s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Group hover transformations for the 3 stacked cards */
+/* Group class is group/folder */
+
+/* Card 1: Left Card */
+.group\/folder:hover .folder-card-1 {
+  transform: rotate(-11deg) translateY(-26px) translateX(-6px) scale(1.02) !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Card 2: Middle Card (Lifts high UP to display top nav and QRIS title!) */
+.group\/folder:hover .folder-card-2 {
+  transform: rotate(-1deg) translateY(-46px) scale(1.03) !important;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Card 3: Right Card (Lifts up-right to show metrics, pie chart, map) */
+.group\/folder:hover .folder-card-3 {
+  transform: rotate(5.5deg) translateY(-22px) translateX(8px) scale(1.02) !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Folder Front Flap subtle 3D response */
+.folder-front-flap-wrap {
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1);
+  transform-origin: bottom center;
+}
+
+.group\/folder:hover .folder-front-flap-wrap {
+  transform: translateY(2px) rotateX(-4deg);
+}
