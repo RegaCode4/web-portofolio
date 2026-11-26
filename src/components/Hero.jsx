@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import confetti from 'canvas-confetti';
 import { Code, Briefcase, Bot, Laptop } from 'lucide-react';
+import portoFX, { useSquash, fireButtonFX } from '../lib/usePortoFX';
 
 export default function Hero() {
   const [avatarAlt, setAvatarAlt] = useState(false);
   const [showJoke, setShowJoke] = useState(false);
+  const avatarSquashRef = useSquash({ low: 0.88, wide: 0.36 });
+  const webSkillRef = useSquash();
+  const prodSkillRef = useSquash();
+  const mlSkillRef = useSquash();
+  const techSkillRef = useSquash();
+  const keycapBtnRef = useRef(null);
 
-  const handleAvatarClick = () => {
-    setAvatarAlt(!avatarAlt);
-    confetti({
-      particleCount: 40,
-      spread: 60,
-      origin: { y: 0.3 }
-    });
+  useEffect(() => {
+    return portoFX.bindKeycap(keycapBtnRef.current);
+  }, []);
+
+  const handleAvatarClick = (e) => {
+    const next = !avatarAlt;
+    setAvatarAlt(next);
+    portoFX.celebrate(e.currentTarget, { word: next ? 'hey!' : 'yo!' });
   };
 
   return (
@@ -53,7 +60,7 @@ export default function Hero() {
               <span className="pointer-events-none absolute inset-x-[12%] bottom-[4%] top-[58%] rounded-[50%] bg-black/20 blur-xl transition duration-500 group-hover/avatar:scale-95 group-hover/avatar:opacity-70" />
               
               {/* Dual Avatar WebP Images from Assets */}
-              <div className="relative h-full w-full">
+              <div ref={avatarSquashRef} className="relative h-full w-full">
                 <img 
                   src="/images/avatar-aslam.webp" 
                   alt="Illustrated avatar of Adip" 
@@ -126,23 +133,24 @@ export default function Hero() {
           
           {/* Skill Tag Pills */}
           <div className="order-1 flex flex-wrap items-center justify-center gap-2 sm:order-1 sm:justify-start">
-            <span className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105">
+            <button ref={webSkillRef} type="button" onClick={(e) => fireButtonFX(e, { kind: 'secondary', word: 'web!' })} className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105 cursor-pointer select-none">
               <Code size={15} /> Web
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105">
+            </button>
+            <button ref={prodSkillRef} type="button" onClick={(e) => fireButtonFX(e, { kind: 'secondary', word: 'ship!' })} className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105 cursor-pointer select-none">
               <Briefcase size={15} /> Product
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105">
+            </button>
+            <button ref={mlSkillRef} type="button" onClick={(e) => fireButtonFX(e, { kind: 'fire', word: 'smart!' })} className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105 cursor-pointer select-none">
               <Bot size={15} /> ML
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105">
+            </button>
+            <button ref={techSkillRef} type="button" onClick={(e) => fireButtonFX(e, { kind: 'secondary', word: 'craft!' })} className="inline-flex items-center gap-2 rounded-[8px_16px_9px_14px] border border-[#deded9] bg-white px-3 py-2 text-xs font-semibold text-[#111111] shadow-[0_6px_16px_rgba(0,0,0,0.1)] transition duration-300 hover:-translate-y-1 hover:scale-105 cursor-pointer select-none">
               <Laptop size={15} /> Tech
-            </span>
+            </button>
           </div>
 
           {/* Keycaps Joke Easter Egg */}
           <div className="order-2 flex flex-col items-center sm:order-2 sm:items-end">
             <button 
+              ref={keycapBtnRef}
               type="button" 
               onMouseEnter={() => setShowJoke(true)}
               onMouseLeave={() => setShowJoke(false)}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import FolderMockupCards from './FolderMockupCards';
+import portoFX, { fireButtonFX } from '../lib/usePortoFX';
 import '../styles/folder.css';
 
 export default function FolderCard({
@@ -14,8 +15,18 @@ export default function FolderCard({
   items = [],
   onSelectProject
 }) {
+  const handleFolderClick = (e) => {
+    const pt = portoFX.at(e.currentTarget, 0.5, 0.42);
+    if (pt.valid) {
+      portoFX.selectBurst(pt.x, pt.y, { w: 124, h: 82 });
+      portoFX.puff(pt.x - 44, pt.y + 24, { n: 3, size: 8, vx: -18, vy: -12 });
+      portoFX.puff(pt.x + 44, pt.y + 24, { n: 3, size: 8, vx: 18, vy: -12 });
+      portoFX.kira(pt.x + 48, pt.y - 26, { r: 8 });
+    }
+  };
+
   return (
-    <article className="group/folder relative min-w-0 flex flex-col justify-start p-3.5 sm:p-4 rounded-3xl transition-all duration-300 hover:bg-white/70 hover:shadow-xl hover:shadow-zinc-200/60 border border-transparent hover:border-zinc-200/80 cursor-pointer">
+    <article onClick={handleFolderClick} className="group/folder relative min-w-0 flex flex-col justify-start p-3.5 sm:p-4 rounded-3xl transition-all duration-300 hover:bg-white/70 hover:shadow-xl hover:shadow-zinc-200/60 border border-transparent hover:border-zinc-200/80 cursor-pointer">
       
       {/* 1. Folder Graphic Header Container */}
       <div className="relative h-[210px] sm:h-[240px] md:h-[250px] w-full flex items-end justify-center select-none overflow-visible folder-dot-bg rounded-2xl p-2 border border-zinc-200/50 mb-3.5">
@@ -118,6 +129,7 @@ export default function FolderCard({
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
+                    fireButtonFX(e, { kind: 'secondary' });
                     onSelectProject && onSelectProject(item);
                   }}
                   className="rounded-full border border-zinc-200/90 bg-white px-3 py-1 text-xs font-semibold text-zinc-800 hover:border-zinc-400 hover:bg-zinc-50 shadow-2xs transition-all cursor-pointer"
@@ -127,7 +139,10 @@ export default function FolderCard({
               ))}
               <a
                 href={seeAllHref}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  fireButtonFX(e, { kind: 'primary' });
+                }}
                 className="ml-1 text-xs font-bold text-[#1557ff] hover:underline inline-flex items-center gap-0.5 cursor-pointer"
               >
                 {seeAllText}

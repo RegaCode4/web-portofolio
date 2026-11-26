@@ -10,6 +10,7 @@ import NavigationFab from './NavigationFab';
 import ExperienceSection from './ExperienceSection';
 import AboutSection from './AboutSection';
 import CatchMeSection from './CatchMeSection';
+import PortoToast from './PortoToast';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -87,6 +88,9 @@ export default function App() {
         onNavigateHome={handleNavigateHome} 
         onNavigateProjects={() => handleNavigateProjects()} 
       />
+
+      {/* Shared Sakuga/Sketchbook Toast Notification */}
+      <PortoToast />
 
       {/* Interactive Project Modal */}
       {selectedProject && (

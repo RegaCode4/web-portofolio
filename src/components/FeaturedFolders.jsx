@@ -3,8 +3,11 @@ import { motion } from 'framer-motion';
 import { Folder, Briefcase, BookOpen, Layers } from 'lucide-react';
 import FolderCard from './FolderCard';
 import { portfolioData } from '../data/portfolioData';
+import { useSquash, fireButtonFX } from '../lib/usePortoFX';
 
 export default function FeaturedFolders({ onSelectProject }) {
+  const postsSquashRef = useSquash();
+  const projectsSquashRef = useSquash();
   const projectItems = (portfolioData.projects || []).map(p => ({
     ...p,
     pillLabel: p.title
@@ -51,13 +54,17 @@ export default function FeaturedFolders({ onSelectProject }) {
           {/* Action CTAs */}
           <div className="flex items-center gap-3">
             <a 
+              ref={postsSquashRef}
               href="#blog" 
+              onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
               className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-xs font-bold border border-zinc-200 bg-white text-zinc-800 hover:border-zinc-400 hover:-translate-y-0.5 h-9 px-4 shadow-xs transition"
             >
               See all posts
             </a>
             <a 
+              ref={projectsSquashRef}
               href="#portfolio" 
+              onClick={(e) => fireButtonFX(e, { kind: 'primary', word: 'projects!' })}
               className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-xs font-bold bg-zinc-900 text-white hover:bg-zinc-800 hover:-translate-y-0.5 h-9 px-4 shadow-xs transition"
             >
               See all projects

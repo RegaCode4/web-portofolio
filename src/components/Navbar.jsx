@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { portfolioData } from '../data/portfolioData';
+import portoFX, { useSquash, fireButtonFX } from '../lib/usePortoFX';
 
 export default function Navbar({ onNavigateHome, onNavigateProjects, currentView }) {
   const [lang, setLang] = useState('EN');
   const [isResumeHovered, setIsResumeHovered] = useState(false);
+  const resumeSquashRef = useSquash();
 
   return (
     <header className="absolute inset-x-0 top-0 z-50 px-5 py-5 sm:px-8 sm:py-8">
@@ -13,6 +15,11 @@ export default function Navbar({ onNavigateHome, onNavigateProjects, currentView
         <a 
           href="#home"
           onClick={(e) => {
+            const pt = portoFX.at(e.currentTarget);
+            if (pt.valid) {
+              portoFX.selectBurst(pt.x, pt.y, { w: pt.w + 14, h: pt.h + 10 });
+              portoFX.ticks(pt.x, pt.y, { n: 4, r: 18, len: 10 });
+            }
             if (onNavigateHome) {
               e.preventDefault();
               onNavigateHome();
@@ -115,9 +122,11 @@ export default function Navbar({ onNavigateHome, onNavigateProjects, currentView
 
             {/* Resume Button */}
             <a 
+              ref={resumeSquashRef}
               href="https://www.linkedin.com/in/adip-habibullah" 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={(e) => fireButtonFX(e, { kind: 'primary', word: 'resume!' })}
               className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-bold transition duration-200 border border-zinc-200 bg-white text-zinc-900 hover:-translate-y-0.5 hover:border-zinc-400 h-10 px-4 shadow-sm relative z-10"
             >
               Resume

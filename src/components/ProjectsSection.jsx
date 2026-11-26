@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Search, ArrowUpRight, Camera, X, Folder } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import portoFX, { fireButtonFX } from '../lib/usePortoFX';
 
 export default function ProjectsSection({ onSelectProject, selectedTechFilter }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTech, setActiveTech] = useState(selectedTechFilter || 'All');
+  const searchInputRef = useRef(null);
 
   const allProjects = portfolioData.projects || [];
 
@@ -88,17 +90,38 @@ export default function ProjectsSection({ onSelectProject, selectedTechFilter })
               <div className="relative w-full">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" size={18} />
                 <input 
+                  ref={searchInputRef}
                   type="text"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onFocus={(e) => {
+                    const pt = portoFX.at(e.currentTarget, 0.96, 0.2);
+                    if (pt.valid) portoFX.ticks(pt.x, pt.y, { n: 3, r: 8, len: 8, dir: -0.7 });
+                  }}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSearchTerm(val);
+                    const pt = portoFX.caretPoint(e.currentTarget);
+                    if (pt.valid) {
+                      portoFX.puff(pt.x, pt.y + 4, { n: 3, size: 5.5, vy: -14, life: 0.34 });
+                      if (val.length % 3 === 1) portoFX.kira(pt.x + 4, pt.y - 6, { r: 5.5, life: 0.3 });
+                    }
+                  }}
                   placeholder="Search projects..."
                   className="w-full rounded-full border border-zinc-200/90 bg-zinc-50/60 py-3 pl-11 pr-10 text-xs sm:text-sm font-medium text-zinc-800 placeholder-zinc-400 focus:bg-white focus:border-[#1557ff] focus:ring-2 focus:ring-[#1557ff]/20 focus:outline-none transition-all"
                 />
                 {searchTerm && (
                   <button 
                     type="button" 
-                    onClick={() => setSearchTerm('')}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-700"
+                    onClick={() => {
+                      const pt = portoFX.at(searchInputRef.current, 0.26, 0.5);
+                      if (pt.valid) {
+                        portoFX.puff(pt.x, pt.y, { n: 5, size: 8.5, vx: 24, vy: -10, life: 0.44 });
+                        portoFX.sfx('clear!', pt.x + 22, pt.y - 26, { size: 22 });
+                      }
+                      setSearchTerm('');
+                      searchInputRef.current?.focus();
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-700 cursor-pointer"
                   >
                     <X size={16} />
                   </button>
@@ -115,7 +138,15 @@ export default function ProjectsSection({ onSelectProject, selectedTechFilter })
                   <button
                     key={tech}
                     type="button"
-                    onClick={() => setActiveTech(tech)}
+                    onClick={(e) => {
+                      const pt = portoFX.at(e.currentTarget);
+                      if (pt.valid) {
+                        portoFX.selectBurst(pt.x, pt.y, { w: pt.w + 8, h: pt.h + 6 });
+                        portoFX.ticks(pt.x, pt.y, { n: 4, r: 14, len: 9 });
+                        portoFX.lines(pt.x, pt.y, { n: 4, dir: Math.PI, len: 24, spread: 10 });
+                      }
+                      setActiveTech(tech);
+                    }}
                     className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                       activeTech === tech 
                         ? 'bg-zinc-900 text-white font-bold border border-zinc-900 shadow-2xs' 
@@ -139,7 +170,10 @@ export default function ProjectsSection({ onSelectProject, selectedTechFilter })
               {filteredProjects.map((project) => (
                 <article 
                   key={project.id}
-                  onClick={() => onSelectProject && onSelectProject(project)}
+                  onClick={(e) => {
+                    fireButtonFX(e, { kind: 'secondary' });
+                    onSelectProject && onSelectProject(project);
+                  }}
                   className="group rounded-3xl border border-zinc-200/90 bg-white p-3.5 sm:p-4 shadow-2xs hover:shadow-xl hover:border-zinc-300 transition-all duration-300 flex flex-col justify-between cursor-pointer"
                 >
                   {/* Image & Badges Container */}

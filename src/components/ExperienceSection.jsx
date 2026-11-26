@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { History, MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import portoFX, { useSquash, fireButtonFX } from '../lib/usePortoFX';
 
 const experiences = [
   {
@@ -54,6 +55,7 @@ export default function ExperienceSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
   const timelineRef = useRef(null);
+  const detailsBtnRef = useSquash();
 
   const activeExp = experiences[selectedIndex];
   const photos = activeExp.photos || [activeExp.image];
@@ -160,8 +162,13 @@ export default function ExperienceSection() {
               {/* View Full Details Button */}
               <div className="mt-8 relative z-10">
                 <button 
+                  ref={detailsBtnRef}
                   type="button" 
-                  onClick={openModal}
+                  onClick={(e) => {
+                    const isOrange = activeExp.bgColor.includes('ff5500');
+                    fireButtonFX(e, { kind: isOrange ? 'fire' : 'primary', word: isOrange ? 'fire!' : 'peek!' });
+                    openModal();
+                  }}
                   className="bg-white text-zinc-900 px-6 py-3 rounded-full font-bold text-xs sm:text-sm shadow-md transition-transform duration-200 hover:scale-105 cursor-pointer"
                 >
                   View full details
@@ -224,7 +231,11 @@ export default function ExperienceSection() {
 
               {/* Workspace Photo Preview & Floating Lanyard ID Badge */}
               <div 
-                onClick={openModal}
+                onClick={(e) => {
+                  const isOrange = activeExp.bgColor.includes('ff5500');
+                  fireButtonFX(e, { kind: isOrange ? 'fire' : 'primary', word: isOrange ? 'fire!' : 'peek!' });
+                  openModal();
+                }}
                 className="mt-6 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-100 aspect-video shadow-xs group cursor-pointer"
               >
                 <img 
@@ -270,16 +281,30 @@ export default function ExperienceSection() {
             <div className="flex items-center gap-2">
               <button 
                 type="button" 
-                onClick={() => scrollTimeline('left')}
-                className="w-8 h-8 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-50 cursor-pointer"
+                onClick={(e) => {
+                  const pt = portoFX.at(e.currentTarget);
+                  if (pt.valid) {
+                    portoFX.lines(pt.x, pt.y, { n: 4, dir: 0, len: 28, spread: 12 });
+                    portoFX.ticks(pt.x, pt.y, { n: 3, r: 12, len: 8, dir: Math.PI });
+                  }
+                  scrollTimeline('left');
+                }}
+                className="w-8 h-8 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-50 active:scale-90 cursor-pointer"
                 aria-label="Scroll left"
               >
                 <ChevronLeft size={16} />
               </button>
               <button 
                 type="button" 
-                onClick={() => scrollTimeline('right')}
-                className="w-8 h-8 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-50 cursor-pointer"
+                onClick={(e) => {
+                  const pt = portoFX.at(e.currentTarget);
+                  if (pt.valid) {
+                    portoFX.lines(pt.x, pt.y, { n: 4, dir: Math.PI, len: 28, spread: 12 });
+                    portoFX.ticks(pt.x, pt.y, { n: 3, r: 12, len: 8, dir: 0 });
+                  }
+                  scrollTimeline('right');
+                }}
+                className="w-8 h-8 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-50 active:scale-90 cursor-pointer"
                 aria-label="Scroll right"
               >
                 <ChevronRight size={16} />
@@ -298,7 +323,16 @@ export default function ExperienceSection() {
                 <button
                   key={exp.id}
                   type="button"
-                  onClick={() => setSelectedIndex(idx)}
+                  onClick={(e) => {
+                    const pt = portoFX.at(e.currentTarget);
+                    if (pt.valid) {
+                      const isFire = exp.bgColor.includes('ff5500');
+                      portoFX.selectBurst(pt.x, pt.y, { w: pt.w * 0.85, h: pt.h * 0.85, preset: isFire ? 'fire' : 'sketch' });
+                      if (isFire) portoFX.embers(pt.x, pt.y, { n: 6, speed: 110 });
+                      else portoFX.ticks(pt.x, pt.y, { n: 4, r: 22, len: 10 });
+                    }
+                    setSelectedIndex(idx);
+                  }}
                   className={`min-w-[250px] sm:min-w-[270px] text-left p-4 rounded-2xl border transition-all duration-300 cursor-pointer shrink-0 ${
                     isSelected 
                       ? (exp.bgColor === 'bg-[#ff5500]' ? 'border-[#ff5500] bg-orange-50/40' : 'border-[#15803d] bg-emerald-50/40') + ' shadow-md translate-y-[-2px]' 

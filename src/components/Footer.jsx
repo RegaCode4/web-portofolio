@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { Copy, Check, Mail, Heart } from 'lucide-react';
 import { Linkedin, Github, Instagram, Tiktok } from './BrandIcons';
+import { useSquash, fireButtonFX, showPortoToast } from '../lib/usePortoFX';
 
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
+  const copyBtnRef = useSquash();
+  const s1Ref = useSquash();
+  const s2Ref = useSquash();
+  const s3Ref = useSquash();
+  const s4Ref = useSquash();
+  const s5Ref = useSquash();
   const email = "regacode4@gmail.com";
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(email);
+  const handleCopyEmail = (e) => {
+    navigator.clipboard?.writeText?.(email)?.catch?.(() => {});
+    if (e) fireButtonFX(e, { kind: 'copy', word: '' });
+    showPortoToast('Email disalin!', { preset: 'sketch', word: 'copied!' });
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
@@ -30,6 +39,7 @@ export default function Footer() {
           <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 p-1 pl-4 text-xs font-semibold text-zinc-700">
             <span>{email}</span>
             <button 
+              ref={copyBtnRef}
               type="button" 
               onClick={handleCopyEmail}
               className="flex h-7 items-center gap-1.5 rounded-full bg-white px-3 text-xs font-bold text-zinc-900 shadow-xs border border-zinc-200 transition hover:bg-zinc-100 cursor-pointer"
@@ -53,43 +63,53 @@ export default function Footer() {
         <div className="flex flex-col items-center sm:items-end gap-3">
           <div className="flex items-center gap-2.5 sm:gap-3">
             <a 
+              ref={s1Ref}
               href="https://www.linkedin.com/in/adip-habibullah" 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 transition hover:-translate-y-1 hover:border-[#1557ff] hover:text-[#1557ff]"
               aria-label="LinkedIn"
             >
               <Linkedin size={18} />
             </a>
             <a 
+              ref={s2Ref}
               href="https://www.instagram.com/adip.v2" 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 transition hover:-translate-y-1 hover:border-[#1557ff] hover:text-[#1557ff]"
               aria-label="Instagram"
             >
               <Instagram size={18} />
             </a>
             <a 
+              ref={s3Ref}
               href="https://www.tiktok.com/@rega280804" 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 transition hover:-translate-y-1 hover:border-[#1557ff] hover:text-[#1557ff]"
               aria-label="TikTok"
             >
               <Tiktok size={16} />
             </a>
             <a 
+              ref={s4Ref}
               href="https://github.com/RegaCode4" 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 transition hover:-translate-y-1 hover:border-[#1557ff] hover:text-[#1557ff]"
               aria-label="GitHub"
             >
               <Github size={18} />
             </a>
             <a 
+              ref={s5Ref}
               href={`mailto:${email}`}
+              onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
               className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 transition hover:-translate-y-1 hover:border-[#1557ff] hover:text-[#1557ff]"
               aria-label="Email"
             >

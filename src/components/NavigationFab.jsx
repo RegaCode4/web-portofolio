@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutGrid, Briefcase, BookOpen, Route, User, MessageSquare, Mail } from 'lucide-react';
+import portoFX, { useSquash, fireButtonFX } from '../lib/usePortoFX';
 
 export default function NavigationFab() {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
+  const fabSquashRef = useSquash({ low: 0.82, wide: 0.45 });
 
   const getAvatarImage = () => {
     if (!isOpen) return "/images/avatara-aslam-3.webp";
@@ -68,7 +70,10 @@ export default function NavigationFab() {
                 exit={{ opacity: 0, x: 20, rotate: 0 }}
                 transition={{ delay: index * 0.03 }}
                 className="bg-white/95 backdrop-blur-xs border border-[#deded9] shadow-[0_8px_24px_rgba(0,0,0,0.08)] rounded-[2rem] py-2.5 px-5 flex items-center justify-between w-[240px] hover:scale-[1.03] hover:border-[#1557ff] transition-all cursor-pointer"
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => {
+                  fireButtonFX(e, { kind: 'secondary' });
+                  setIsOpen(false);
+                }}
                 onMouseEnter={() => setHoveredItem(item.label)}
                 onMouseLeave={() => setHoveredItem(null)}
               >
@@ -93,7 +98,10 @@ export default function NavigationFab() {
               exit={{ opacity: 0, x: 20, rotate: 0 }}
               transition={{ delay: menuItems.length * 0.03 }}
               className="bg-white/95 backdrop-blur-xs border border-[#ff5a0a]/30 shadow-[0_8px_24px_rgba(255,90,10,0.12)] rounded-[2rem] py-2.5 px-5 flex items-center justify-between w-[240px] mt-1 hover:scale-[1.03] transition-all cursor-pointer group"
-              onClick={() => setIsOpen(false)}
+              onClick={(e) => {
+                fireButtonFX(e, { kind: 'fire', preset: 'fire', word: 'lit!' });
+                setIsOpen(false);
+              }}
               onMouseEnter={() => setHoveredItem('Say hi')}
               onMouseLeave={() => setHoveredItem(null)}
             >
@@ -114,10 +122,18 @@ export default function NavigationFab() {
 
       {/* FAB Trigger Button with WebP Avatar from Assets */}
       <button 
+        ref={fabSquashRef}
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(e) => {
+          const pt = portoFX.at(e.currentTarget);
+          if (pt.valid) {
+            portoFX.puff(pt.x, pt.y, { n: 4, size: 8, vy: -14 });
+            portoFX.ticks(pt.x, pt.y, { n: 4, r: 22, len: 10, preset: isOpen ? 'sketch' : 'fire' });
+          }
+          setIsOpen(!isOpen);
+        }}
         aria-label="Toggle menu"
-        className="w-14 h-14 hover:scale-110 active:scale-95 transition-transform focus:outline-none drop-shadow-xl cursor-pointer"
+        className="w-14 h-14 hover:scale-110 transition-transform focus:outline-none drop-shadow-xl cursor-pointer"
       >
         <img 
           src={getAvatarImage()} 

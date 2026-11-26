@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, Copy, Check } from 'lucide-react';
 import { Instagram, Linkedin, Youtube, Tiktok } from './BrandIcons';
+import portoFX, { useSquash, fireButtonFX, showPortoToast } from '../lib/usePortoFX';
 
 
 const quotes = [
@@ -19,6 +20,12 @@ export default function CatchMeSection() {
   const [copiedPhone, setCopiedPhone] = useState(false);
   
   const lastDodgeRef = useRef(0);
+  const avatarHeadRef = useRef(null);
+  const emailCopyRef = useSquash();
+  const phoneCopyRef = useSquash();
+  const instaRef = useSquash();
+  const linkedinRef = useSquash();
+  const tiktokRef = useSquash();
 
   const isWon = dodgeCount >= quotes.length - 1;
 
@@ -30,23 +37,39 @@ export default function CatchMeSection() {
     if (now - lastDodgeRef.current < 400) return;
     lastDodgeRef.current = now;
 
-    setDodgeCount((prevCount) => {
-      const nextCount = prevCount + 1;
-      if (nextCount < quotes.length - 1) {
-        // Jump/dodge to a random position inside container (between 18% and 82%)
-        const newX = Math.floor(Math.random() * 64) + 18;
-        const newY = Math.floor(Math.random() * 64) + 18;
-        setAvatarPos({ x: newX, y: newY });
-      } else {
-        // Center position when caught/won
-        setAvatarPos({ x: 50, y: 50 });
+    const prevRect = portoFX.at(avatarHeadRef.current);
+    const nextCount = dodgeCount + 1;
+    setDodgeCount(nextCount);
+
+    if (nextCount < quotes.length - 1) {
+      // Jump/dodge to a random position inside container (between 18% and 82%)
+      const newX = Math.floor(Math.random() * 64) + 18;
+      const newY = Math.floor(Math.random() * 64) + 18;
+      const trailAngle = Math.atan2(avatarPos.y - newY, avatarPos.x - newX);
+      if (prevRect.valid) {
+        portoFX.dodge(prevRect, {
+          dir: trailAngle,
+          word: nextCount === 1 ? 'whoosh!' : nextCount === 3 ? 'miss!' : undefined,
+        });
       }
-      return nextCount;
-    });
+      setAvatarPos({ x: newX, y: newY });
+    } else {
+      // Center position when caught/won
+      if (prevRect.valid) portoFX.dodge(prevRect, { preset: 'fire' });
+      setAvatarPos({ x: 50, y: 50 });
+      portoFX.later(180, () => {
+        portoFX.catchWin(avatarHeadRef.current, { preset: 'fire', word: 'gotcha!' });
+      });
+    }
   };
 
-  const handleCopy = (text, type) => {
-    navigator.clipboard.writeText(text);
+  const handleCopy = (text, type, e) => {
+    navigator.clipboard?.writeText?.(text)?.catch?.(() => {});
+    if (e) fireButtonFX(e, { kind: 'copy', word: '' });
+    showPortoToast(type === 'email' ? 'Email disalin!' : 'Nomor telepon disalin!', {
+      preset: 'sketch',
+      word: 'copied!',
+    });
     if (type === 'email') {
       setCopiedEmail(true);
       setTimeout(() => setCopiedEmail(false), 2000);
@@ -108,7 +131,7 @@ export default function CatchMeSection() {
               </AnimatePresence>
 
               {/* Avatar Character Head Image from Assets */}
-              <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-white border-2 border-[#111111] shadow-xl p-1.5 flex items-center justify-center transition-transform group-hover:scale-105 overflow-hidden">
+              <div ref={avatarHeadRef} className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-white border-2 border-[#111111] shadow-xl p-1.5 flex items-center justify-center transition-transform group-hover:scale-105 overflow-hidden">
                 <img 
                   src={isWon ? "/images/avatar-pose1.webp" : "/images/avatar-pose2.webp"} 
                   alt="Interactive Avatar Head" 
@@ -161,9 +184,11 @@ export default function CatchMeSection() {
               {/* Social Buttons */}
               <div className="flex flex-wrap gap-2.5">
                 <a 
+                  ref={instaRef}
                   href="https://www.instagram.com/adip.v2" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
                   className="inline-flex items-center gap-2 rounded-full border border-[#deded9] bg-white px-4 py-2 text-xs font-bold text-[#111111] transition hover:-translate-y-0.5 hover:border-[#1557ff] shadow-xs"
                 >
                   <Instagram size={15} className="text-[#111111]" />
@@ -171,9 +196,11 @@ export default function CatchMeSection() {
                 </a>
                 
                 <a 
+                  ref={linkedinRef}
                   href="https://www.linkedin.com/in/adip-habibullah" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
                   className="inline-flex items-center gap-2 rounded-full border border-[#deded9] bg-white px-4 py-2 text-xs font-bold text-[#111111] transition hover:-translate-y-0.5 hover:border-[#1557ff] shadow-xs"
                 >
                   <Linkedin size={15} className="text-[#111111]" />
@@ -181,9 +208,11 @@ export default function CatchMeSection() {
                 </a>
 
                 <a 
+                  ref={tiktokRef}
                   href="https://www.tiktok.com/@rega280804" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  onClick={(e) => fireButtonFX(e, { kind: 'secondary' })}
                   className="inline-flex items-center gap-2 rounded-full border border-[#deded9] bg-white px-4 py-2 text-xs font-bold text-[#111111] transition hover:-translate-y-0.5 hover:border-[#1557ff] shadow-xs"
                 >
                   <Tiktok size={15} className="text-[#111111]" />
@@ -202,10 +231,11 @@ export default function CatchMeSection() {
                   </span>
                 </div>
                 <button 
+                  ref={emailCopyRef}
                   type="button" 
-                  onClick={() => handleCopy('regacode4@gmail.com', 'email')}
+                  onClick={(e) => handleCopy('regacode4@gmail.com', 'email', e)}
                   aria-label="Copy email address"
-                  className="text-xs font-bold text-[#76766f] hover:text-[#1557ff] transition cursor-pointer"
+                  className="text-xs font-bold text-[#76766f] hover:text-[#1557ff] transition cursor-pointer p-1"
                 >
                   {copiedEmail ? <Check size={16} className="text-emerald-600" /> : <Copy size={16} />}
                 </button>
@@ -220,10 +250,11 @@ export default function CatchMeSection() {
                   </span>
                 </div>
                 <button 
+                  ref={phoneCopyRef}
                   type="button" 
-                  onClick={() => handleCopy('082278954406', 'phone')}
+                  onClick={(e) => handleCopy('082278954406', 'phone', e)}
                   aria-label="Copy phone number"
-                  className="text-xs font-bold text-[#76766f] hover:text-[#1557ff] transition cursor-pointer"
+                  className="text-xs font-bold text-[#76766f] hover:text-[#1557ff] transition cursor-pointer p-1"
                 >
                   {copiedPhone ? <Check size={16} className="text-emerald-600" /> : <Copy size={16} />}
                 </button>
